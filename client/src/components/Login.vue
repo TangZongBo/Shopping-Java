@@ -61,9 +61,8 @@ export default {
              this.$refs.loginFormRef.validate((valid) =>{
                  if(!valid)return;
                   this.$http.post('login',this.loginForm).then(function (resp) {
-                          //console.log(resp)
-                          if(resp.data.length==0){
-                              _this.$message.error("登录失败!")
+                          if(resp.data.resultCode.code!==200){
+                              _this.$message.error("登录失败,"+resp.data.resultCode.message)
                           }else{
                               _this.$message.success("登录成功!")
                               //window.sessionStorage.setItem("token",resp.data.token)

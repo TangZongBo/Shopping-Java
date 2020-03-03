@@ -5,6 +5,7 @@ body,
     height: 100%;
     margin: 0;
     padding: 0;
+    min-width: 1366px;/*页面最小宽度*/
 }
 
 .el-breadcrumb{
@@ -21,6 +22,28 @@ body,
     font-size: 12px;
 }
 
-.el-pagination{
-    margin-top: 15px;
+table,tbody,thead {
+    width: 100% !important;
+}
+/*
+colgroup {
+    position: absolute;
+    width: 100% !important;
+    display: flex;
+}
+col {
+    flex: 1;
+   text-align: center;
+}*/
+
+.el-steps{
+    margin: 15px 0;
+}
+
+.el-step__title{
+    font-size: 13px;
+}
+
+.ql-editor{
+    min-height:300px;
 }

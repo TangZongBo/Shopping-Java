@@ -95,7 +95,7 @@
                            {
                                id:108,
                                name:'分类参数',
-                               path:'sortargs'
+                               path:'params'
                            },
                            {
                                id:109,

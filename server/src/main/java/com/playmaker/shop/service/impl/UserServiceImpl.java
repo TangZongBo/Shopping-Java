@@ -2,6 +2,8 @@ package com.playmaker.shop.service.impl;
 
 import com.playmaker.shop.dao.UserRepository;
 import com.playmaker.shop.entity.User;
+import com.playmaker.shop.exception.PasswordErrorException;
+import com.playmaker.shop.exception.UserNotExistException;
 import com.playmaker.shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,12 +25,12 @@ public class UserServiceImpl implements UserService {
     public User login(User user) {
         User newuser = userRepository.findByUsername(user.getUsername());
         if(newuser==null){
-            return null;
+            throw new UserNotExistException("用户不存在!");
         }else {
             if(newuser.getPassword().equals(user.getPassword())){
                 return newuser;
             }else{
-                return null;
+                throw new PasswordErrorException("用户密码错误!");
             }
         }
     }
