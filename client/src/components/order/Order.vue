@@ -29,15 +29,15 @@
                        </template>
                   </el-table-column>
                   <el-table-column label="是否发货" prop="is_send"></el-table-column>
-                  <el-table-column label="是否发货" prop="create_time">
+                  <el-table-column label="创建时间" prop="create_time">
                        <template slot-scope="scope">
                             {{scope.row.create_time | dateFormat}}
                        </template>
                   </el-table-column>
                   <el-table-column label="操作">
                       <template slot-scope="scope">
-                             <el-button size="mini" type="primary" icon="el-icon-edit"></el-button>
-                          <el-button size="mini" type="success" icon="el-icon-location"></el-button>
+                             <el-button size="mini" type="primary" icon="el-icon-edit" @click="showBox()" :disabled="scope.row.is_send === '是'?true:false"></el-button>
+                          <el-button size="mini" type="success" icon="el-icon-location" @click="showProgressBox" :disabled="scope.row.is_send === '是'?false:true"></el-button>
                       </template>
                   </el-table-column>
               </el-table>
@@ -54,10 +54,41 @@
              </el-pagination>
 
          </el-card>
+
+       <!--修改地址的对话框-->
+        <el-dialog title="修改地址" :visible.sync="addressVisible" width="50%" @close="addressDialogClose">
+            <el-form :model="addressForm" :rules="addressFormRules" ref="addressFormRef" label-width="100px">
+                <el-form-item label="省市区/县" prop="address1">
+                    <el-cascader :options="cityData" v-model="addressForm.address1"></el-cascader>
+                </el-form-item>
+                <el-form-item label="详细地址" prop="address2">
+                    <el-input v-model="addressForm.address2"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+    <el-button @click="addressVisible = false">取 消</el-button>
+    <el-button type="primary" @click="addressVisible = false">确 定</el-button>
+  </span>
+        </el-dialog>
+
+        <!--展示物流信息的对话框-->
+        <el-dialog title="物流进度" :visible.sync="progressVisible" width="50%">
+            <!--时间线-->
+            <el-timeline>
+                <el-timeline-item
+                        v-for="(activity, index) in progressInfo"
+                        :key="index"
+                        :timestamp="activity.time">
+                    {{activity.context}}
+                </el-timeline-item>
+            </el-timeline>
+        </el-dialog>
     </div>
 </template>
 
 <script>
+    import cityData from './citydata.js'
+
     export default {
         data(){
             return{
@@ -68,7 +99,24 @@
                       pagesize:10
                   },
                   total:0,
-                  orderList:[]
+                  orderList:[],
+                //修改地址对话框显示与隐藏
+                addressVisible:false,
+                //修改地址表单
+                addressForm:{
+                      address1:[],
+                      address2:''
+                },
+                //修改地址表单校验
+                addressFormRules:{
+                      address1:[{required:true,message:'请选择省市区/县',trigger:'blur'}],
+                      address2:[{required:true,message:'请填写详细地址',trigger:'blur'}]
+                },
+                cityData,
+                //物流信息对话框
+                progressVisible:false,
+                //物流信息
+                progressInfo:[]
             }
         },
         created() {
@@ -105,7 +153,7 @@
                          "order_number":"哈哈",
                          "order_price":356,
                          "pay_status":"0",
-                         "is_send":"是",
+                         "is_send":"否",
                          "trade_no":"",
                          "order_fapiao_title":"个人",
                          "order_fapiao_company":"",
@@ -125,11 +173,48 @@
             handleCurrentChange(newPage){
                     this.queryInfo.pagenum = newPage
                     this.getOrderList()
+            },
+            //显示修改地址对话框
+            showBox(){
+              this.addressVisible = true
+            },
+            //关闭修改地址对话框清空表单
+            addressDialogClose(){
+                 this.$refs.addressFormRef.resetFields()
+            },
+            //显示查看物流信息对话框
+            async showProgressBox(){
+                /*const {data:res} = await this.$http.get('/kuaidi/804909574412544580')
+                if(res.meta.status!==200){
+                    return this.$message.error('获取物流进度失败!')
+                }
+                this.progressInfo = res.data
+                this.progressVisible = true
+                console.log(this.progressInfo)*/
+
+                this.progressInfo = [
+                    {
+                        "time":"2018-05-10 09:39:00",
+                        "ftime":"2018-05-10 09:39:00",
+                        "context":"已签收,感谢使用顺丰,期待再次为您服务",
+                        "location":""
+                    },
+                    {
+                        "time":"2018-05-07 09:39:00",
+                        "ftime":"2018-05-07 09:39:00",
+                        "context":"江苏省宿迁市公司取件人:夏利 已收件",
+                        "location":""
+                    }
+                ]
+                this.progressVisible = true
             }
+
         }
     }
 </script>
 
 <style lang="less" scoped>
-
+      .el-cascader{
+          width:100%;
+      }
 </style>

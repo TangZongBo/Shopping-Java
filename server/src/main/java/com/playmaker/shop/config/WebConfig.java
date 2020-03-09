@@ -2,37 +2,23 @@ package com.playmaker.shop.config;
 
 import com.playmaker.shop.interceptor.ResponseResultInterceptor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * @ProjectName: springboottest
- * @Package: com.playmaker.springboottest.config
- * @ClassName: CorsConfig
+ * @ProjectName: Shopping-Java
+ * @Package: com.playmaker.shop.config
+ * @ClassName: WebConfig
  * @Author: shangqianzhushang
- * @Description:web配置
- * @Date: 2020/2/1 22:40
+ * @Description:
+ * @Date: 2020/3/7 1:42
  * @Version: 1.0
  */
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
-
-
-    //跨域配置
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedMethods("GET","HEAD","POST","PUT","DELETE","OPTIONS")
-                .allowCredentials(true)
-                .maxAge(3600)
-                .allowedHeaders("*");//跨域的请求头
-    }
-
+public class WebConfig  implements WebMvcConfigurer {
     //添加拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-            registry.addInterceptor(new ResponseResultInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(new ResponseResultInterceptor()).addPathPatterns("/**");
     }
 }

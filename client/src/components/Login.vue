@@ -61,12 +61,13 @@ export default {
              this.$refs.loginFormRef.validate((valid) =>{
                  if(!valid)return;
                   this.$http.post('login',this.loginForm).then(function (resp) {
-                          if(resp.data.resultCode.code!==200){
-                              _this.$message.error("登录失败,"+resp.data.resultCode.message)
+                          if(resp.data.code!==1){
+                              _this.$message.error("登录失败,"+resp.data.message)
                           }else{
                               _this.$message.success("登录成功!")
                               //window.sessionStorage.setItem("token",resp.data.token)
                               window.sessionStorage.setItem("token","123")
+                              window.sessionStorage.setItem("username",_this.loginForm.username)
                               _this.$router.push("/home")
                           }
                   })

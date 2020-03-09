@@ -47,3 +47,7 @@ col {
 .ql-editor{
     min-height:300px;
 }
+
+.el-card{
+    border-radius: 20px;
+}

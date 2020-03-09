@@ -11,6 +11,7 @@ import Params from '../components/goods/Params.vue'
 import GoodList from '../components/goods/List.vue'
 import OrderList from '../components/order/Order.vue'
 import Add from '../components/goods/Add.vue'
+import NotPermission from '../components/admin/NotPermission.vue'
 
 Vue.use(VueRouter)
 
@@ -59,6 +60,10 @@ const routes = [
       {
         path:'/goods/add',
         component:Add
+      },
+      {
+        path:'/notPermission',
+        component:NotPermission
       }
     ]
   }

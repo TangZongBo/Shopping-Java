@@ -233,6 +233,7 @@
             }
         },
         created() {
+            //this.$router.push('/notPermission') 没有权限跳转
             this.getUserList()
         },
         methods:{

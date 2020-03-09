@@ -1,18 +1,11 @@
 package com.playmaker.shop.controller;
 
 import com.playmaker.shop.annotation.ResponseResult;
-import com.playmaker.shop.dto.Result;
 
 import com.playmaker.shop.entity.Order;
-import com.playmaker.shop.utils.ValidatorUtils;
-import org.aspectj.weaver.ast.Or;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.Validation;
-import javax.validation.constraints.NotNull;
 
 /**
  * @ProjectName: Shopping-Java
@@ -49,9 +42,9 @@ public class OrderController {
     }*/
 
     @PostMapping("save")
-    public Order save(@RequestBody Order order){
+    public Order save(@RequestBody @Valid Order order){
         //服务器端验证
-        ValidatorUtils.validateEntity(order);
+        //ValidatorUtils.validateEntity(order);
 
         return order;
     }

@@ -13,5 +13,7 @@ import com.playmaker.shop.entity.User;
  */
 public interface UserService {
 
-    User login(User user);
+
+    //检查用户名
+    User checkUser(User user);
 }

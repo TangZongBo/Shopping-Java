@@ -6,7 +6,24 @@
                     <img src="../../assets/logo.png">
                     <span>周氏科技后台管理系统</span>
                 </div>
-                <el-button type="info" @click="logout">退出</el-button>
+                <!--用户信息 退出-->
+                <div>
+                <el-avatar size="large" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
+                <el-popover
+                        placement="top"
+                        width="160"
+                        trigger="hover"
+                        v-model="visible">
+                    <p>确定要退出嘛？</p>
+                    <div style="text-align: right; margin: 0">
+                        <el-button size="mini" type="text" @click="visible = false">取消</el-button>
+                        <el-button type="primary" size="mini" @click="logout">确定</el-button>
+                    </div>
+                    <el-button slot="reference">{{userInfo.username}}</el-button>
+                </el-popover>
+                </div>
+
+                <!--<el-button type="info" @click="logout">退出</el-button>-->
             </el-header>
             <!--页面主体-->
             <el-container>
@@ -50,6 +67,7 @@
     export default {
         created(){
           this.getMenuList()
+            this.getUserInfo()
           this.activePath = window.sessionStorage.getItem('activePath')
         },
         data(){
@@ -125,11 +143,14 @@
                 //是否折叠
                 isCollapse:false,
                 //被激活链接地址
-                activePath:''
+                activePath:'',
+                userInfo:{username:''},
+                visible:false
             }
         },
         methods:{
             logout(){
+                this.visible = false
                  window.sessionStorage.clear()
                 this.$message.success("退出成功!")
                  this.$router.push("/login")
@@ -146,6 +167,9 @@
             saveNavState(activePath){
                 window.sessionStorage.setItem('activePath',activePath)
                 this.activePath=activePath
+            },
+            getUserInfo(){
+                this.userInfo.username = window.sessionStorage.getItem('username')
             }
         }
     }

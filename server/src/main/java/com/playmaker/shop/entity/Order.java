@@ -15,9 +15,9 @@ import javax.validation.constraints.NotNull;
  */
 public class Order {
     private Integer id;
-    @NotBlank(message = "姓名不能为空")
+    @NotNull(message = "名字不能为空")
     private String name;
-    @NotBlank(message = "描述不能为空")
+    @NotNull(message = "描述不能为空")
     private String message;
 
     public Order(Integer id, String name, String message) {
